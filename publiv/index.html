@@ -1,0 +1,209 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp AI Auto-Reply Bot</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div>
+                    <h1>WhatsApp AI Bot</h1>
+                    <p class="subtitle">Auto-Reply Dashboard</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="status-badge" id="statusBadge">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Menghubungkan...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- QR Code Section -->
+            <section class="qr-section" id="qrSection">
+                <div class="qr-card">
+                    <div class="qr-header">
+                        <i class="fas fa-qrcode"></i>
+                        <h2>Hubungkan WhatsApp</h2>
+                        <p>Scan QR Code di bawah dengan WhatsApp Anda</p>
+                    </div>
+                    
+                    <div class="qr-container" id="qrContainer">
+                        <div class="qr-loading" id="qrLoading">
+                            <div class="spinner"></div>
+                            <p>Memuat QR Code...</p>
+                        </div>
+                        <img id="qrImage" class="qr-image hidden" alt="QR Code">
+                    </div>
+
+                    <div class="qr-instructions">
+                        <div class="instruction">
+                            <span class="step">1</span>
+                            <p>Buka <strong>WhatsApp</strong> di HP Anda</p>
+                        </div>
+                        <div class="instruction">
+                            <span class="step">2</span>
+                            <p>Ketuk <strong>Menu ⋮</strong> > <strong>Linked Devices</strong></p>
+                        </div>
+                        <div class="instruction">
+                            <span class="step">3</span>
+                            <p>Ketuk <strong>Link a Device</strong></p>
+                        </div>
+                        <div class="instruction">
+                            <span class="step">4</span>
+                            <p>Arahkan HP ke layar untuk <strong>scan QR Code</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Connected Dashboard -->
+            <section class="dashboard hidden" id="dashboard">
+                <!-- User Info Card -->
+                <div class="info-card">
+                    <div class="user-info">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h3 id="userName">-</h3>
+                            <p id="userNumber">-</p>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-warning" onclick="restartBot()">
+                            <i class="fas fa-sync-alt"></i> Restart
+                        </button>
+                        <button class="btn btn-danger" onclick="logoutBot()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="statMessages">0</h4>
+                            <p>Pesan Masuk</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-reply"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="statReplies">0</h4>
+                            <p>Balasan Terkirim</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="statErrors">0</h4>
+                            <p>Error</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="statUptime">0j 0m</h4>
+                            <p>Uptime</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="controls-grid">
+                    <!-- Toggle Controls -->
+                    <div class="control-card">
+                        <h3><i class="fas fa-cogs"></i> Pengaturan</h3>
+                        <div class="toggle-group">
+                            <div class="toggle-item">
+                                <div>
+                                    <strong>Auto-Reply</strong>
+                                    <p>Balas pesan otomatis dengan AI</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggleAutoReply" onchange="toggleAutoReply()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div>
+                                    <strong>Balas Grup</strong>
+                                    <p>Balas pesan di group chat</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggleGroups" onchange="toggleGroups()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary full-width" onclick="clearHistory()">
+                            <i class="fas fa-trash-alt"></i> Reset Semua Percakapan AI
+                        </button>
+                    </div>
+
+                    <!-- AI Prompt -->
+                    <div class="control-card">
+                        <h3><i class="fas fa-brain"></i> AI System Prompt</h3>
+                        <p class="help-text">Atur kepribadian dan cara AI merespons</p>
+                        <textarea id="systemPrompt" rows="5" placeholder="Masukkan system prompt..."></textarea>
+                        <button class="btn btn-primary full-width" onclick="updatePrompt()">
+                            <i class="fas fa-save"></i> Simpan Prompt
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Message Log -->
+                <div class="log-card">
+                    <div class="log-header">
+                        <h3><i class="fas fa-history"></i> Log Pesan Terbaru</h3>
+                        <button class="btn btn-sm" onclick="refreshLogs()">
+                            <i class="fas fa-refresh"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="log-container" id="messageLog">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>Belum ada pesan masuk</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>WhatsApp AI Auto-Reply Bot &copy; 2024 | Powered by OpenAI GPT</p>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
